@@ -1,192 +1,192 @@
-import { DatePicker } from "@mui/lab";
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import {
+  Typography,
   Button,
-  Checkbox,
-  FormControlLabel,
   Grid,
   Icon,
-  Radio,
-  RadioGroup,
   styled,
+  Card,
+  CardMedia,
+  CardActions
 } from "@mui/material";
+import { Link } from "react-router-dom";
 import { Span } from "app/components/Typography";
-import { useEffect, useState } from "react";
+import { useState, useRef } from "react";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
+// eslint-disable-next-line no-unused-vars
+import emailjs from "@emailjs/browser";
 
 const TextField = styled(TextValidator)(() => ({
   width: "100%",
-  marginBottom: "16px",
+  marginBottom: "16px"
 }));
 
 const SimpleForm = () => {
-  const [state, setState] = useState({ date: new Date() });
+  const formRef = useRef();
+  const [status, setStatus] = useState("");
+  const [formData, setFormData] = useState({
+    username: "",
+    name: "",
+    mobile: "",
+    email: "",
+    message: ""
+  });
 
-  useEffect(() => {
-    ValidatorForm.addValidationRule("isPasswordMatch", (value) => {
-      if (value !== state.password) return false;
-
-      return true;
-    });
-    return () => ValidatorForm.removeValidationRule("isPasswordMatch");
-  }, [state.password]);
-
-  const handleSubmit = (event) => {
-    // console.log("submitted");
-    // console.log(event);
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-  const handleChange = (event) => {
-    event.persist();
-    setState({ ...state, [event.target.name]: event.target.value });
+    emailjs
+      .send(
+        "service_gwmr80d", 
+        "template_7scbrad",
+        formData,
+        "wtAIuuWb61KT03wsN" 
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+          setStatus("✅ Message envoyé avec succès !");
+          setFormData({
+            username: "",
+            name: "",
+            mobile: "",
+            email: "",
+            message: ""
+          });
+        },
+        (error) => {
+          console.log(error.text);
+          setStatus("❌ Erreur lors de l'envoi du message.");
+        }
+      );
   };
-
-  const handleDateChange = (date) => setState({ ...state, date });
-
-  const {
-    username,
-    firstName,
-    creditCard,
-    mobile,
-    password,
-    confirmPassword,
-    gender,
-    date,
-    email,
-  } = state;
 
   return (
     <div>
-      <ValidatorForm onSubmit={handleSubmit} onError={() => null}>
+      <ValidatorForm ref={formRef} onSubmit={handleSubmit} onError={() => null}>
         <Grid container spacing={6}>
           <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
             <TextField
               type="text"
-              name="username"
-              id="standard-basic"
-              value={username || ""}
+              name="name"
+              label="Nom"
+              value={formData.name}
               onChange={handleChange}
-              errorMessages={["this field is required"]}
-              label="Username (Min length 4, Max length 9)"
-              validators={["required", "minStringLength: 4", "maxStringLength: 9"]}
+              validators={["required"]}
+              errorMessages={["Champ obligatoire !"]}
             />
 
             <TextField
               type="text"
-              name="firstName"
-              label="First Name"
+              name="username"
+              value={formData.username}
               onChange={handleChange}
-              value={firstName || ""}
+              errorMessages={["Champ obligatoire !"]}
+              label="Prénom"
               validators={["required"]}
-              errorMessages={["this field is required"]}
+            />
+
+            <TextField
+              type="text"
+              name="mobile"
+              label="Numéro de téléphone"
+              value={formData.mobile}
+              onChange={handleChange}
+              validators={["required"]}
+              errorMessages={["Champ obligatoire !"]}
             />
 
             <TextField
               type="email"
               name="email"
-              label="Email"
-              value={email || ""}
+              placeholder="Votre email"
+              value={formData.email}
               onChange={handleChange}
-              validators={["required", "isEmail"]}
-              errorMessages={["this field is required", "email is not valid"]}
+              className="block w-full p-2 mb-2 border"
+              label="Email"
+              validators={["required"]}
+              errorMessages={["Champ obligatoire !", "Adresse e-mail non valide"]}
             />
-
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DatePicker
-                value={date}
-                onChange={handleDateChange}
-                renderInput={(props) => (
-                  <TextField
-                    {...props}
-                    label="Date picker"
-                    id="mui-pickers-date"
-                    sx={{ mb: 2, width: "100%" }}
-                  />
-                )}
-              />
-            </LocalizationProvider>
 
             <TextField
               sx={{ mb: 4 }}
-              type="number"
-              name="creditCard"
-              label="Credit Card"
+              type="message"
+              name="message"
+              label="Message"
+              value={formData.message}
               onChange={handleChange}
-              value={creditCard || ""}
-              errorMessages={["this field is required"]}
-              validators={["required", "minStringLength:16", "maxStringLength: 16"]}
+              errorMessages={["Champ obligatoire !"]}
+              validators={["required"]}
+              multiline
+              rows={4}
             />
+            <Button color="primary" variant="contained" type="submit">
+              <Icon>send</Icon>
+              <Span sx={{ pl: 1, textTransform: "capitalize" }}>Envoyer</Span>
+            </Button>
           </Grid>
 
-          <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
-            <TextField
-              type="text"
-              name="mobile"
-              value={mobile || ""}
-              label="Mobile Nubmer"
-              onChange={handleChange}
-              validators={["required"]}
-              errorMessages={["this field is required"]}
-            />
-            <TextField
-              name="password"
-              type="password"
-              label="Password"
-              value={password || ""}
-              onChange={handleChange}
-              validators={["required"]}
-              errorMessages={["this field is required"]}
-            />
-            <TextField
-              type="password"
-              name="confirmPassword"
-              onChange={handleChange}
-              label="Confirm Password"
-              value={confirmPassword || ""}
-              validators={["required", "isPasswordMatch"]}
-              errorMessages={["this field is required", "password didn't match"]}
-            />
-            <RadioGroup
-              row
-              name="gender"
-              sx={{ mb: 2 }}
-              value={gender || ""}
-              onChange={handleChange}
-            >
-              <FormControlLabel
-                value="Male"
-                label="Male"
-                labelPlacement="end"
-                control={<Radio color="secondary" />}
+          <Grid item xs={12} sm={6} md={4} lg={6}>
+            <Card sx={{ maxWidth: 500, margin: "0 auto" }}>
+              <CardMedia
+                component={Link}
+                to="/dashboard/default"
+                alt="green iguana"
+                sx={{
+                  height: 200,
+                  width: "100%",
+                  maxWidth: 300,
+                  margin: "0 auto"
+                }}
+                image="/assets/images/LogoNabila.svg"
               />
 
-              <FormControlLabel
-                value="Female"
-                label="Female"
-                labelPlacement="end"
-                control={<Radio color="secondary" />}
-              />
+              <Typography variant="h5" align="center" sx={{ mt: 2 }}>
+                {"\n "}
+                Des idées, des questions ou un projet à discuter ? Ce formulaire est là pour
+                faciliter la prise de contact. Je suis toujours curieuse d'échanger avec des
+                personnes inspirantes !
+              </Typography>
+            
 
-              <FormControlLabel
-                value="Others"
-                label="Others"
-                labelPlacement="end"
-                control={<Radio color="secondary" />}
-              />
-            </RadioGroup>
-
-            <FormControlLabel
-              control={<Checkbox />}
-              label="I have read and agree to the terms of service."
-            />
+              <CardActions sx={{ justifyContent: "center", flexDirection: "column", mt: 2 }}>
+                <Typography variant="h">
+                  {""}
+                  N'hésitez pas à jeter un œil à mon profil !
+                </Typography>
+                <Button
+                  component={Link}
+                  to="/session/signin"
+                  // size="large"
+                  sx={{
+                    fontSize: "1rem",
+                    width: "100%",
+                    maxWidth: 200,
+                    mt: 1
+                  }}
+                >
+                  Connexion
+                </Button>
+                <Button
+                  component={Link}
+                  to="/session/signup"
+                  // size="large"
+                  sx={{
+                    fontSize: "1rem",
+                    width: "100%",
+                    maxWidth: 200
+                  }}
+                >
+                  Inscription
+                </Button>
+              </CardActions>
+            </Card>
           </Grid>
         </Grid>
 
-        <Button color="primary" variant="contained" type="submit">
-          <Icon>send</Icon>
-          <Span sx={{ pl: 1, textTransform: "capitalize" }}>Submit</Span>
-        </Button>
+        {status && <p className="mt-2">{status}</p>}
       </ValidatorForm>
     </div>
   );

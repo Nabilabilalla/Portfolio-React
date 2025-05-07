@@ -1,34 +1,32 @@
-import { useTheme } from '@mui/material';
-import ReactEcharts from 'echarts-for-react';
+import { useTheme } from "@mui/material";
+import ReactEcharts from "echarts-for-react";
 
 const ComparisonChart = ({ height, color = [] }) => {
   const theme = useTheme();
 
   const option = {
-    grid: { top: '10%', bottom: '10%', right: '5%' },
+    grid: { top: "10%", bottom: "10%", right: "5%" },
     legend: { show: false },
-    color: ['#223388', 'rgba(34, 51, 136, 0.8)'],
+    color: ["#223388", "rgba(34, 51, 136, 0.8)"],
     barGap: 0,
-    barMaxWidth: '64px',
+    barMaxWidth: "64px",
     dataset: {
       source: [
-        ['Month', 'Website', 'App'],
-        ['Jan', 2200, 1200],
-        ['Feb', 800, 500],
-        ['Mar', 700, 1350],
-        ['Apr', 1500, 1250],
-        ['May', 2450, 450],
-        ['June', 1700, 1250]
+        ["HTML     CSS", 85, 85],
+        ["JS    VUEJS", 70, 65],
+        ["JAVA   REACTNATIVE", 40, 75],
+        ["PHP    PYTHON", 85, 60],
+        ["REACTJS   FLUTTER", 85, 70]
       ]
     },
     xAxis: {
-      type: 'category',
+      type: "category",
       axisLine: { show: false },
       splitLine: { show: false },
       axisTick: { show: false },
       axisLabel: {
-        fontSize: 13,
-        fontFamily: 'roboto',
+        fontSize: 9,
+        fontFamily: "roboto",
         color: theme.palette.text.secondary
       }
     },
@@ -38,15 +36,18 @@ const ComparisonChart = ({ height, color = [] }) => {
       splitLine: {
         lineStyle: { color: theme.palette.text.secondary, opacity: 0.15 }
       },
+      min: 0,
+      max: 100,
       axisLabel: {
+        formatter: "{value} %",
         fontSize: 13,
-        fontFamily: 'roboto',
+        fontFamily: "roboto",
         color: theme.palette.text.secondary
       }
     },
     // Declare several bar series, each will be mapped
     // to a column of dataset.source by default.
-    series: [{ type: 'bar' }, { type: 'bar' }]
+    series: [{ type: "bar" }, { type: "bar" }]
   };
 
   return <ReactEcharts style={{ height: height }} option={{ ...option }} />;

@@ -1,66 +1,91 @@
-import { LoadingButton } from '@mui/lab';
-import { Card, Checkbox, Grid, TextField } from '@mui/material';
-import { Box, styled, useTheme } from '@mui/material';
-import { Paragraph } from 'app/components/Typography';
-import useAuth from 'app/hooks/useAuth';
-import { Formik } from 'formik';
-import { useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
-import * as Yup from 'yup';
+import { LoadingButton } from "@mui/lab";
+// eslint-disable-next-line no-unused-vars
+import { Card, Checkbox, Grid, TextField, Typography } from "@mui/material";
+import { Box, styled, useTheme } from "@mui/material";
+import { Paragraph } from "app/components/Typography";
+import { Formik } from "formik";
+import { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import * as Yup from "yup";
+import { Link } from "react-router-dom";
 
-const FlexBox = styled(Box)(() => ({ display: 'flex', alignItems: 'center' }));
+const FlexBox = styled(Box)(() => ({ display: "flex", alignItems: "center" }));
 
-const JustifyBox = styled(FlexBox)(() => ({ justifyContent: 'center' }));
+const JustifyBox = styled(FlexBox)(() => ({ justifyContent: "center" }));
 
 const ContentBox = styled(Box)(() => ({
-  height: '100%',
-  padding: '32px',
-  position: 'relative',
-  background: 'rgba(0, 0, 0, 0.01)'
+  height: "100%",
+  padding: "32px",
+  position: "relative",
+  background: "rgba(0, 0, 0, 0.01)"
 }));
 
 const JWTRoot = styled(JustifyBox)(() => ({
-  background: '#1A2038',
-  minHeight: '100% !important',
-  '& .card': {
+  background: "#1A2038",
+  minHeight: "100% !important",
+  "& .card": {
     maxWidth: 800,
     minHeight: 400,
-    margin: '1rem',
-    display: 'flex',
+    margin: "1rem",
+    display: "flex",
     borderRadius: 12,
-    alignItems: 'center'
+    alignItems: "center"
   }
 }));
-
-// inital login credentials
-const initialValues = {
-  email: 'jason@ui-lib.com',
-  password: 'dummyPass',
-  remember: true
-};
 
 // form field validation schema
 const validationSchema = Yup.object().shape({
   password: Yup.string()
-    .min(6, 'Password must be 6 character length')
-    .required('Password is required!'),
-  email: Yup.string().email('Invalid Email address').required('Email is required!')
+    .min(6, "Le mot de passe doit comporter 6 caractères")
+    .required("Champ obligatoire !"),
+  email: Yup.string().email("Adresse e-mail non valide").required("Champ obligatoire !")
 });
 
 const JwtLogin = () => {
-  const theme = useTheme();
+  const [formData, setFormData] = useState({
+    email: "",
+    password: ""
+  });
+  const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
 
-  const { login } = useAuth();
+  // Gestion du changement des champs
+  // eslint-disable-next-line no-unused-vars
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+  const theme = useTheme();
 
-  const handleFormSubmit = async (values) => {
-    setLoading(true);
+  const handleSubmit = async (values, { setSubmitting }) => {
+    setMessage("En cours...");
+    setIsLoading(true);
     try {
-      await login(values.email, values.password);
-      navigate('/');
-    } catch (e) {
-      setLoading(false);
+      const res = await fetch("http://localhost:8000/login.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(values)
+      });
+
+      // Récupération de la réponse JSON
+      const data = await res.json();
+      if (data.error) {
+        setMessage(data.error);
+      } else if (data.message && data.token) {
+        setMessage(`${data.message} Token: ${data.token}`);
+        localStorage.setItem("jwt", data.token); // Sauvegarde du JWT dans le localStorage
+        navigate("/");
+      } else {
+        setMessage("Réponse inattendue du serveur.");
+      }
+    } catch (err) {
+      console.error(err);
+      setMessage("Erreur de connexion au serveur.");
+    } finally {
+      setIsLoading(false);
+      setSubmitting(false);
     }
   };
 
@@ -70,15 +95,19 @@ const JwtLogin = () => {
         <Grid container>
           <Grid item sm={6} xs={12}>
             <JustifyBox p={4} height="100%" sx={{ minWidth: 320 }}>
-              <img src="/assets/images/illustrations/dreamer.svg" width="100%" alt="" />
+              <Link to="/dashboard/default">
+                <img src="/assets/images/LogoNabila.svg" width="100%" alt="" />
+              </Link>
             </JustifyBox>
           </Grid>
-
-          <Grid item sm={6} xs={12}>
+          <Grid item sm={6} xs={14}>
             <ContentBox>
+              <Typography variant="h3" align="center" color="#044173">
+                Connexion
+              </Typography>
               <Formik
-                onSubmit={handleFormSubmit}
-                initialValues={initialValues}
+                onSubmit={handleSubmit}
+                initialValues={{ email: "", password: "", remember: false }}
                 validationSchema={validationSchema}
               >
                 {({ values, errors, touched, handleChange, handleBlur, handleSubmit }) => (
@@ -103,7 +132,7 @@ const JwtLogin = () => {
                       size="small"
                       name="password"
                       type="password"
-                      label="Password"
+                      label="Mot de passe"
                       variant="outlined"
                       onBlur={handleBlur}
                       value={values.password}
@@ -114,7 +143,7 @@ const JwtLogin = () => {
                     />
 
                     <FlexBox justifyContent="space-between">
-                      <FlexBox gap={1}>
+                      {/* <FlexBox gap={1}>
                         <Checkbox
                           size="small"
                           name="remember"
@@ -124,38 +153,40 @@ const JwtLogin = () => {
                         />
 
                         <Paragraph>Remember Me</Paragraph>
-                      </FlexBox>
+                      </FlexBox> */}
 
                       <NavLink
                         to="/session/forgot-password"
                         style={{ color: theme.palette.primary.main }}
                       >
-                        Forgot password?
+                        Mot de passe oublié ?
                       </NavLink>
                     </FlexBox>
 
                     <LoadingButton
                       type="submit"
                       color="primary"
-                      loading={loading}
+                      loading={isLoading}
                       variant="contained"
-                      sx={{ my: 2 }}
+                      align="center"
+                      sx={{ my: 5 }}
                     >
-                      Login
+                      Connexion
                     </LoadingButton>
 
                     <Paragraph>
-                      Don't have an account?
+                      Vous n'avaez pas de compte?
                       <NavLink
                         to="/session/signup"
                         style={{ color: theme.palette.primary.main, marginLeft: 5 }}
                       >
-                        Register
+                        Inscrez-vous
                       </NavLink>
                     </Paragraph>
                   </form>
                 )}
               </Formik>
+              <p>{message}</p>
             </ContentBox>
           </Grid>
         </Grid>

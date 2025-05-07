@@ -11,15 +11,15 @@ import {
   useMediaQuery
 } from "@mui/material";
 
-import { NotificationProvider } from "app/contexts/NotificationContext";
+// import { NotificationProvider } from "app/contexts/NotificationContext";
 
 import useAuth from "app/hooks/useAuth";
 import useSettings from "app/hooks/useSettings";
 
 import { Span } from "app/components/Typography";
-import ShoppingCart from "app/components/ShoppingCart";
+// import ShoppingCart from "app/components/ShoppingCart";
 import { MatxMenu, MatxSearchBox } from "app/components";
-import NotificationBar from "app/components/NotificationBar/NotificationBar";
+// import NotificationBar from "app/components/NotificationBar/NotificationBar";
 import { themeShadows } from "app/components/MatxTheme/themeColors";
 
 import { topBarHeight } from "app/utils/constant";
@@ -29,9 +29,9 @@ import {
   Menu,
   Person,
   Settings,
-  WebAsset,
-  MailOutline,
-  StarOutline,
+  // WebAsset,
+  // MailOutline,
+  // StarOutline,
   PowerSettingsNew
 } from "@mui/icons-material";
 
@@ -83,10 +83,10 @@ const StyledItem = styled(MenuItem)(({ theme }) => ({
   "& span": { marginRight: "10px", color: theme.palette.text.primary }
 }));
 
-const IconBox = styled("div")(({ theme }) => ({
-  display: "inherit",
-  [theme.breakpoints.down("md")]: { display: "none !important" }
-}));
+// const IconBox = styled("div")(({ theme }) => ({
+//   display: "inherit",
+//   [theme.breakpoints.down("md")]: { display: "none !important" }
+// }));
 
 const Layout1Topbar = () => {
   const theme = useTheme();
@@ -117,7 +117,7 @@ const Layout1Topbar = () => {
             <Menu />
           </StyledIconButton>
 
-          <IconBox>
+          {/* <IconBox>
             <StyledIconButton>
               <MailOutline />
             </StyledIconButton>
@@ -129,51 +129,51 @@ const Layout1Topbar = () => {
             <StyledIconButton>
               <StarOutline />
             </StyledIconButton>
-          </IconBox>
+          </IconBox> */}
+          <MatxSearchBox />
         </Box>
 
         <Box display="flex" alignItems="center">
-          <MatxSearchBox />
-
-          <NotificationProvider>
+          {/* <NotificationProvider>
             <NotificationBar />
-          </NotificationProvider>
+          </NotificationProvider> */}
 
-          <ShoppingCart />
+          {/* <ShoppingCart /> */}
 
           <MatxMenu
             menuButton={
               <UserMenu>
+                <Avatar src={user.avatar} sx={{ cursor: "pointer" }} />
                 <Hidden xsDown>
                   <Span>
-                    Hi <strong>{user.name}</strong>
+                    <strong>{user.name}</strong>
                   </Span>
                 </Hidden>
-                <Avatar src={user.avatar} sx={{ cursor: "pointer" }} />
               </UserMenu>
-            }>
+            }
+          >
             <StyledItem>
               <Link to="/">
                 <Home />
-                <Span>Home</Span>
+                <Span>Aceuil</Span>
               </Link>
             </StyledItem>
 
             <StyledItem>
               <Link to="/page-layouts/user-profile">
                 <Person />
-                <Span>Profile</Span>
+                <Span>Profil</Span>
               </Link>
             </StyledItem>
 
             <StyledItem>
               <Settings />
-              <Span>Settings</Span>
+              <Span>Réglage</Span>
             </StyledItem>
 
             <StyledItem onClick={logout}>
               <PowerSettingsNew />
-              <Span>Logout</Span>
+              <Span>Déconnexion</Span>
             </StyledItem>
           </MatxMenu>
         </Box>
