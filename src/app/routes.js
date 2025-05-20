@@ -37,7 +37,8 @@ const routes = [{
             ...materialRoutes,
             // dashboard route
             { path: "/dashboard/default", element: < Analytics / > , auth: authRoles.admin },
-            // e-chart route
+            // dashboard route
+
             { path: "/charts/echarts", element: < AppEchart / > , auth: authRoles.editor }
         ]
     },

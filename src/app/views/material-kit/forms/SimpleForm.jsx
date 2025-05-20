@@ -37,30 +37,23 @@ const SimpleForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    emailjs
-      .send(
-        "service_gwmr80d", 
-        "template_7scbrad",
-        formData,
-        "wtAIuuWb61KT03wsN" 
-      )
-      .then(
-        (result) => {
-          console.log(result.text);
-          setStatus("✅ Message envoyé avec succès !");
-          setFormData({
-            username: "",
-            name: "",
-            mobile: "",
-            email: "",
-            message: ""
-          });
-        },
-        (error) => {
-          console.log(error.text);
-          setStatus("❌ Erreur lors de l'envoi du message.");
-        }
-      );
+    emailjs.send("service_gwmr80d", "template_7scbrad", formData, "wtAIuuWb61KT03wsN").then(
+      (result) => {
+        console.log(result.text);
+        setStatus("✅ Message envoyé avec succès !");
+        setFormData({
+          username: "",
+          name: "",
+          mobile: "",
+          email: "",
+          message: ""
+        });
+      },
+      (error) => {
+        console.log(error.text);
+        setStatus("❌ Erreur lors de l'envoi du message.");
+      }
+    );
   };
 
   return (
@@ -149,7 +142,6 @@ const SimpleForm = () => {
                 faciliter la prise de contact. Je suis toujours curieuse d'échanger avec des
                 personnes inspirantes !
               </Typography>
-            
 
               <CardActions sx={{ justifyContent: "center", flexDirection: "column", mt: 2 }}>
                 <Typography variant="h">
@@ -169,6 +161,7 @@ const SimpleForm = () => {
                 >
                   Connexion
                 </Button>
+
                 <Button
                   component={Link}
                   to="/session/signup"

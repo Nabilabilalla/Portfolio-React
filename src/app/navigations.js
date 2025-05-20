@@ -3,6 +3,7 @@ export const navigations = [
     // { name: "Profil", path: "/dashboard/profil", icon: "account_circle" },
     { name: "Contact", path: "/material/form", icon: "email" },
     { name: "Expériences", path: "/material/experiences", icon: "work" },
-    { name: "Réalisations", path: "/material/realisation", icon: "extension" }
+    { name: "Réalisations", path: "/material/realisation", icon: "extension" },
+    { name: "Design", path: "/material/design", icon: "brush" }
     // { label: "PAGES", type: "label" },
 ];

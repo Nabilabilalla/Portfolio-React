@@ -10,6 +10,7 @@ import ComparisonChart from "../charts/echarts/ComparisonChart";
 import DoughnutChart from "./shared/Doughnut";
 import PieChartLangues from "../charts/echarts/PieChartLangues";
 import HobbiesChart from "../charts/echarts/HobbiesChart";
+import ToolUsageChart from "./shared/Recharts";
 // import ExperienceSection from "../charts/echarts/ExperienceSection";
 // import { PieChart } from "@mui/x-charts/PieChart";
 
@@ -76,6 +77,13 @@ const Analytics = () => {
 
             {/* <ContactCards /> */}
           </Grid>
+          <Box sx={{ py: "12px" }} />
+          <Grid>
+            <SimpleCard title=" Design">
+              <ToolUsageChart />
+            </SimpleCard>
+          </Grid>
+
           <Box sx={{ py: "12px" }} />
           <Grid item xs={12} md={8}>
             <TopSellingTable />

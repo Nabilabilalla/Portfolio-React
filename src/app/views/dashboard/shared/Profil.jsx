@@ -50,11 +50,12 @@ const Profil = () => {
             l'innovation dans ma carrière professionnelle. Après trois années en tant que
             <strong> photographe professionnelle</strong>, j'ai choisi de me réorienter vers le
             développement web.
-            <br /> <br /> Fort de <strong> trois ans</strong> de formation, dont{" "}
-            <strong> deux ans en entreprise</strong>, je suis à la recherche d'un poste en tant que{" "}
-            <strong> développeuse web</strong>. Mon objectif est de rejoindre une structure
-            dynamique où je pourrai mettre en avant mes compétences et continuer à évoluer
-            techniquement.
+            {/* <br /> <br /> Fort de <strong> trois ans</strong> de formation, dont{" "}
+            <strong> deux ans en entreprise .</strong> */}
+            <br />
+            <br />
+            Mon objectif est de rejoindre une structure dynamique où je pourrai mettre en avant mes
+            compétences et continuer à évoluer.
           </Typography>
         </Card>
       </Grid>

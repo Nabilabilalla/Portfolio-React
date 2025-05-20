@@ -1,6 +1,6 @@
 import { LoadingButton } from "@mui/lab";
 // eslint-disable-next-line no-unused-vars
-import { Card, Checkbox, Grid, TextField, Typography } from "@mui/material";
+import { Card, Checkbox, Button, Grid, TextField, Typography } from "@mui/material";
 import { Box, styled, useTheme } from "@mui/material";
 import { Paragraph } from "app/components/Typography";
 import { Formik } from "formik";
@@ -126,7 +126,6 @@ const JwtLogin = () => {
                       error={Boolean(errors.email && touched.email)}
                       sx={{ mb: 3 }}
                     />
-
                     <TextField
                       fullWidth
                       size="small"
@@ -143,6 +142,21 @@ const JwtLogin = () => {
                     />
 
                     <FlexBox justifyContent="space-between">
+                      <LoadingButton
+                        type="submit"
+                        color="primary"
+                        loading={isLoading}
+                        variant="contained"
+                        align="center"
+                        sx={{ my: 2 }}
+                      >
+                        Connexion
+                      </LoadingButton>
+                      <Link to="/" style={{ textDecoration: "none" }}>
+                        <Button variant="contained" color="primary">
+                          Connexion en tant qu'invité
+                        </Button>
+                      </Link>
                       {/* <FlexBox gap={1}>
                         <Checkbox
                           size="small"
@@ -154,25 +168,13 @@ const JwtLogin = () => {
 
                         <Paragraph>Remember Me</Paragraph>
                       </FlexBox> */}
-
-                      <NavLink
-                        to="/session/forgot-password"
-                        style={{ color: theme.palette.primary.main }}
-                      >
-                        Mot de passe oublié ?
-                      </NavLink>
                     </FlexBox>
-
-                    <LoadingButton
-                      type="submit"
-                      color="primary"
-                      loading={isLoading}
-                      variant="contained"
-                      align="center"
-                      sx={{ my: 5 }}
+                    <NavLink
+                      to="/session/forgot-password"
+                      style={{ color: theme.palette.primary.main }}
                     >
-                      Connexion
-                    </LoadingButton>
+                      Mot de passe oublié ?
+                    </NavLink>
 
                     <Paragraph>
                       Vous n'avaez pas de compte?
