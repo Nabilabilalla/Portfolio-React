@@ -21,11 +21,13 @@ const designData = [
     type: "figma"
   },
   {
-    title: "Maquette Figma - Application Mobile",
-    image: "/assets/images/ENCO.png",
-    link: "https://www.figma.com/design/uGnurrxBM7NitJC49ClQ04/Untitled?t=ZZUOXoRjNjvgZIMs-0",
-    type: "figma"
+    title: "Maquette Adobe XD- SOFT",
+    image: "/assets/images/soft.png",
+
+    link: "https://xd.adobe.com/view/d441fb19-b0f6-4b99-b62e-b21a6da233a8-8112/",
+    type: "Adobe XD"
   },
+
   {
     title: "Apteed",
     image: "/assets/images/apteed.png",
@@ -43,6 +45,12 @@ const designData = [
     image: "/assets/images/luneConcept.png",
     link: "https://www.figma.com/design/https://www.figma.com/design/v3gi1kKQ3rSjRPkoJCCOZd/Untitled?t=pg6O0Jvwv6rfLgqz-0/Untitled?node-id=1-14&p=f&t=pg6O0Jvwv6rfLgqz-0",
     type: "logo"
+  },
+  {
+    title: "Maquette Figma - Application Mobile",
+    image: "/assets/images/EncoS.png",
+    link: "https://www.figma.com/design/uGnurrxBM7NitJC49ClQ04/Untitled?t=ZZUOXoRjNjvgZIMs-0",
+    type: "figma"
   }
 ];
 const logoGallery = [
@@ -95,7 +103,7 @@ const DesignGallery = () => {
                   variant="contained"
                   sx={{ margin: "auto", backgroundColor: "#04255a" }}
                 >
-                  Voir sur Figma
+                  Voir
                 </Button>
               </CardActions>
             </Card>
