@@ -66,6 +66,12 @@ const maquette = [
   "/assets/images/stats.png",
   "/assets/images/login_ens.png",
   "/assets/images/contact_ens.png",
+  "/assets/images/1000050667.jpg",
+  "/assets/images/1000050668.jpg",
+  "/assets/images/1000050670.jpg",
+  "/assets/images/1000050671.jpg",
+  "/assets/images/1000050669.jpg",
+  "/assets/images/",
   "/assets/images/SHOPNAB.png"
 ];
 
