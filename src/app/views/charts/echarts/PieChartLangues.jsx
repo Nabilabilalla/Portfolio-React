@@ -37,10 +37,10 @@ const PieChartLangues = () => {
         },
 
         data: [
-          { value: 40, name: "Français" },
-          { value: 30, name: "Arabe" },
-          { value: 20, name: "Anglais" },
-          { value: 10, name: "Kabyle" }
+          { value: 80, name: "Français" },
+          { value: 60, name: "Arabe" },
+          { value: 60, name: "Anglais" },
+          { value: 100, name: "Kabyle" }
         ],
 
         emphasis: {
